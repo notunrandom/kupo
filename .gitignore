@@ -13,8 +13,10 @@ node_modules
 ## Cabal
 dist-newstyle
 .dist-production
+/kupo.cabal
 
 ## Dist
 /dist
 *.tar.gz
 /cabal.project.local
+/.brewbundle.timestamp
