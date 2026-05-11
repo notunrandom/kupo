@@ -1,13 +1,19 @@
-BREWFILE  := Brewfile
-TIMESTAMP := .brewbundle.timestamp
+.PHONY: build test
 
-SECPKPATH := $(shell brew --prefix secp256k1@0.3.2)/lib/pkgconfig
-GHC96PATH := $(shell brew --prefix ghc@9.6)/bin
+BREWFILE   := Brewfile
+TIMESTAMP  := .brewbundle.timestamp
+BREWPREFIX := $(shell brew --prefix)
+BREWLIBS   := $(BREWPREFIX)/lib
+GHC96PATH  := $(BREWPREFIX)/opt/ghc@9.6/bin
 
-build: export PATH := $(GHC96PATH):$(PATH)
-build: export PKG_CONFIG_PATH := $(SECPKPATH):$(PKG_CONFIG_PATH)
+export PATH            := $(GHC96PATH):$(PATH)
+export LD_LIBRARY_PATH := $(BREWLIBS):$(LD_LIBRARY_PATH)
+
 build: kupo.cabal
 	cabal build
+
+test: kupo.cabal
+	cabal test
 
 kupo.cabal: $(TIMESTAMP) package.yaml
 	hpack
