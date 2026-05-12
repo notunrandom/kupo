@@ -1,4 +1,4 @@
-.PHONY: build test
+.PHONY: build dependencies test
 
 BREWFILE   := Brewfile
 TIMESTAMP  := .brewbundle.timestamp
@@ -11,6 +11,9 @@ SECPKGCONF := $(SECPLIBS)/pkgconfig
 export PATH            := $(GHC96PATH):$(PATH)
 export PKG_CONFIG_PATH := $(SECPKGCONF):$(PKG_CONFIG_PATH)
 export LD_LIBRARY_PATH := $(SECPLIBS):$(BREWLIBS):$(LD_LIBRARY_PATH)
+
+dependencies: kupo.cabal
+	cabal build --only-dependencies
 
 build: kupo.cabal
 	cabal build
